@@ -5,9 +5,8 @@ FTP SERVER
 This is a basic/bare FTP Client-Server Model.
 
 Languages/Skills:
-----------------
+---
 * Completely written in C. 
-* Editor: VIM
 * Makefile, usage of Recursive makefile and Makefile Advance concpets.
 * Debugged using GDB
 
@@ -24,5 +23,5 @@ Environment:
 * Compiler: GCC, version 4.6.3.
 * Editor: VIM, version 7.3.429.
 
-Source:   
-http://www.ece.eng.wayne.edu/~gchen/ece5650/myftp.pdf
+---
+It all started with [this](http://www.ece.eng.wayne.edu/~gchen/ece5650/myftp.pdf)!
