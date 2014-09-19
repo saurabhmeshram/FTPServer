@@ -1,18 +1,25 @@
-CC= gcc
-MAKE = make
+ENABLE_DEBUG = y
 
-FTP_SRC:= $(shell pwd)
+CC= gcc
+RM= rm
+MV= mv
+MAKE= make
+
+FTP_PATH:= $(shell pwd)
 DATE:= $(shell date)
 
-.PHONY: clean
+TARGET_SERVER = server
+TARGET_CLIENT = client
+
+CFLAGS := -Wall
+
+ifeq ($(strip $(ENABLE_DEBUG)), y)
+CFLAGS += -g
+endif
+
+.PHONY: all clean
 
 all:
-	@echo "$(DATE)"
-	@echo "Building Source Code\n"
-	server client
+	$(MAKE) -C $(FTP_PATH)/src/
 
-server:
-	@echo "This is the Server"
-
-client:
-	@echo "This is the Client"
+export CC RM MV MAKE CFLAGS FTP_PATH TARGET_SERVER TARGET_CLIENT

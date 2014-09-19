@@ -1,0 +1,31 @@
+SERVER_SRC_PATH = $(FTP_PATH)/src/server/
+CLIENT_SRC_PATH = $(FTP_PATH)/src/client/
+
+INCLUDE_PATH = $(FTP_PATH)/include/
+OBJECT_PATH = $(FTP_PATH)/obj/
+
+SERVER_SRC= $(SERVER_SRC_PATH)server_main.c
+SERVER_OBJ= $(SERVER_SRC_PATH:c=o)
+
+CLIENT_SRC= $(CLIENT_SRC_PATH)client_main.c
+CLIENT_OBJ= $(CLIENT_SRC_PATH:c=o)
+
+.PHONY: all
+all: $(TARGET_SERVER) $(TARGET_CLIENT)
+
+# Building SERVER TARGET #
+$(TARGET_SERVER): $(SERVER_OBJ)
+	@echo "Building Server Binary"
+	$(CC) -o $(TARGET_SERVER) $(SERVER_OBJ)
+
+$(SERVER_OBJ): $(SERVER_SRC)
+	$(CC) $(CFLAGS) $(SERVER_SRC) -I $(INCLUDE_PATH)
+
+
+# Building CLIENT TARGET #
+$(TARGET_CLIENT):	$(CLIENT_OBJ)
+			@echo "Building Client Binary"
+			$(CC) -o $(TARGET_CLIENT) $(CLIENT_OBJ)
+
+$(CLIENT_OBJ):	$(CLIENT_SRC)
+		$(CC) $(CFLAGS) $(CLIENT_SRC) -I $(INCLUDE_PATH)
