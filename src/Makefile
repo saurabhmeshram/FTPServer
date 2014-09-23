@@ -14,7 +14,7 @@ CLIENT_OBJ= $(CLIENT_SRC:c=o)
 
 all: 	$(TARGET_SERVER) $(TARGET_CLIENT)
 	@echo "Done."
-	@echo "Binaries genarated at $(FTP_PATH)/bin/ \n"
+	@echo "\nBinaries genarated at [$(FTP_PATH)/bin/] \n"
 
 # Building SERVER TARGET #
 $(TARGET_SERVER): 	$(SERVER_OBJ)
