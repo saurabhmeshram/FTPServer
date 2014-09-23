@@ -16,6 +16,6 @@ int main (void)
 	serv.sin_port = PORT;
 	serv.sin_addr.s_addr = inet_addr(IP_ADDR);
 
-	bind(sock_fd, &serv, sizeof(struct sockaddr_in));
+	bind(sock_fd, (const struct sockaddr *) &serv, sizeof(struct sockaddr_in));
 	return 0;
 }
