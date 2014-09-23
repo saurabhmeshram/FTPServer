@@ -1,1 +1,0 @@
-Added since GIT doesn't checkin empty Directory
