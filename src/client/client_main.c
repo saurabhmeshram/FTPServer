@@ -87,7 +87,7 @@ int32_t process_command(int8_t *cmd, int sock_fd)
     else if (0 == FTP_STRCMP(cmd, "pwd"))
 	pwd_command(sock_fd);	
     else if (0 == FTP_STRNCMP((const char *) cmd, "put", strlen("put")))
-	//put_file_command(sock_fd, cmd);
+	;//put_file_command(sock_fd, cmd);
     else if (0 == FTP_STRCMP((const char *) cmd, "ls"))
 	list_files_command(sock_fd);
     return 0;

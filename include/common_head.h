@@ -58,6 +58,7 @@ extern "C" {
 #define SIZE128 	128
 #define SIZE512 	512
 #define SIZE1024 	1024
+#define SIZE 		1024
 #define TRUE 	1
 #define FALSE 	0
 
