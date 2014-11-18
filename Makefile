@@ -12,7 +12,7 @@ DATE:= $(shell date)
 TARGET_SERVER = server_process
 TARGET_CLIENT = client_process
 
-CFLAGS := -Wall
+CFLAGS := 
 
 ifeq ($(strip $(ENABLE_DEBUG)), y)
 CFLAGS += -g
@@ -22,8 +22,8 @@ endif
 .SILENT: all
 
 all:	
-	@echo "\n\n$(DATE)"
-	@echo "Building Source..\n\n"
+	@echo "\n$(DATE)"
+	@echo "Building Source..\n"
 	$(MAKE) -C $(FTP_PATH)/src/
 
 clean:

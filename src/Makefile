@@ -21,7 +21,7 @@ $(TARGET_SERVER): 	$(SERVER_OBJ)
 			@echo "Building Server Binary"
 			@$(CC) -o $(TARGET_SERVER) $(SERVER_OBJ)
 			@$(MV) $(TARGET_SERVER) $(FTP_PATH)/bin/
-			@$(MV) $(SERVER_OBJ) $(FTP_PATH)/bin/server_obj
+			#@$(MV) $(SERVER_OBJ) $(FTP_PATH)/bin/server_obj
 
 $(SERVER_OBJ): 		$(SERVER_SRC)
 			@$(CC) $(CFLAGS) -c $(SERVER_SRC) -o $(SERVER_OBJ) -I $(INCLUDE_PATH)
@@ -31,11 +31,11 @@ $(SERVER_OBJ): 		$(SERVER_SRC)
 $(TARGET_CLIENT):	$(CLIENT_OBJ)
 			@echo "Building Client Binary"
 			@$(CC) -o $(TARGET_CLIENT) $(CLIENT_OBJ)
-			@$(MV) $(CLIENT_OBJ) $(FTP_PATH)/bin/client_obj
+			#@$(MV) $(CLIENT_OBJ) $(FTP_PATH)/bin/client_obj
 			@$(MV) $(TARGET_CLIENT) $(FTP_PATH)/bin/
 
 $(CLIENT_OBJ):		$(CLIENT_SRC)
 			@$(CC) $(CFLAGS) -c $(CLIENT_SRC) -o $(CLIENT_OBJ) -I $(INCLUDE_PATH)
 
 clean:
-	$(RM) -rf $(FTP_PATH)/bin/server_obj/* $(FTP_PATH)/bin/client_obj/* $(FTP_PATH)/bin/$(TARGET_SERVER) $(FTP_PATH)/bin/$(TARGET_CLIENT)
+	@$(RM) -rf $(FTP_PATH)/bin/server_obj/* $(FTP_PATH)/bin/client_obj/* $(FTP_PATH)/bin/$(TARGET_SERVER) $(FTP_PATH)/bin/$(TARGET_CLIENT)
