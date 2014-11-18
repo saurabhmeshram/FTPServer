@@ -19,19 +19,20 @@ extern "C" {
 #include <sys/types.h>
 #include <arpa/inet.h>
 
-/* FTP Macros */
+/* FTP Wrapper Functions */
 #define FTP_SOCKET	socket
 #define FTP_BIND	bind 	
 #define FTP_LISTEN	listen
 #define FTP_ACCEPT	accept
 #define FTP_CONNECT	connect
+#define FTP_SETSOCKOPT	setsockopt
 
 #define FTP_OPEN	open
 #define FTP_CLOSE	close
+#define FTP_POPEN	popen
+#define FTP_PCLOSE	pclose
 #define FTP_READ	read
 #define FTP_WRITE	write
-#define FTP_RECV	recv
-#define FTP_SEND	send
 
 #define FTP_MALLOC	malloc
 #define FTP_FREE	free
@@ -43,13 +44,20 @@ extern "C" {
 #define FTP_STRCMP	strcmp
 #define FTP_STRNCMP	strncmp
 
+#define FTP_FSCANF	fscanf
+
 /* Misc Macros */
 #define _LINE 	__LINE__
 #define _FILE	__FILE__
 #define _FUNC 	__func__
 #define ENTER 	printf("Entered Function [%s][%d]\n", _FUNC, _LINE)
 #define EXIT  	printf("Exiting Function [%s][%d]\n", _FUNC, _LINE)
+#define DEBUG  	printf("Here in [%s][%d]\n", _FUNC, _LINE)
 
+#define SIZE64 		64
+#define SIZE128 	128
+#define SIZE512 	512
+#define SIZE1024 	1024
 #define TRUE 	1
 #define FALSE 	0
 
@@ -67,9 +75,18 @@ enum command {
 	FTP_CMD_QUIT = -1,
 }command_t;
 
+const char *command_str[] = {
+	"CD"
+	"GET"
+	"HELP"
+	"LS"
+	"PUT"
+	"PWD"
+	"QUIT"
+};
+
+
 /* Standard Declarations */
-
-
 
 #ifdef __cplusplus
 }

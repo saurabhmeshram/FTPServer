@@ -23,7 +23,7 @@ endif
 
 all:	
 	@echo "\n$(DATE)"
-	@echo "Building Source..\n\n"
+	@echo "Building Source..\n"
 	$(MAKE) -C $(FTP_PATH)/src/
 
 clean:

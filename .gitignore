@@ -1,5 +1,8 @@
+#Files to Ignore
 tags
+./include/*.swp
 cscope*
 *~
+
+#Folders to Ignore
 test
-./include/*.swp
