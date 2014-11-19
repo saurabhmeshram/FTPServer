@@ -3,6 +3,10 @@ tags
 ./include/*.swp
 cscope*
 *~
+src/client/client_main.o
+src/server/server_main.o
+bin/server_process
+bin/client_process
 
 #Folders to Ignore
 test

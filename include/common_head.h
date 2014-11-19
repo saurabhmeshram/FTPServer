@@ -19,6 +19,42 @@ extern "C" {
 #include <sys/types.h>
 #include <arpa/inet.h>
 
+/* Path where all the FTP files are Stored */
+#define FTP_REPO "./REPO/"
+
+/* Enum contains the Commands to send */
+enum command {
+	FTP_CMD_CD = 0,
+	FTP_CMD_GET,
+	FTP_CMD_HELP,
+	FTP_CMD_LS,
+	FTP_CMD_PUT,
+	FTP_CMD_PWD,
+	FTP_CMD_QUIT = -1,
+}command_t;
+
+const char *command_str[] = {
+	"CD"
+	"GET"
+	"HELP"
+	"LS"
+	"PUT"
+	"PWD"
+	"QUIT"
+};
+
+
+#define FILENAMESIZE 	64
+#define FILEDATASIZE 	2048
+
+typedef struct filestr
+{
+	int file_size;
+	char file_name[FILENAMESIZE];
+	char file_data[FILEDATASIZE];
+}filestr_t;
+
+
 /* FTP Wrapper Functions */
 #define FTP_SOCKET	socket
 #define FTP_BIND	bind 	
@@ -41,6 +77,7 @@ extern "C" {
 
 #define FTP_STRLEN	strlen
 #define FTP_STRCPY	strcpy
+#define FTP_STRNCPY	strncpy
 #define FTP_STRCMP	strcmp
 #define FTP_STRNCMP	strncmp
 #define FTP_STRTOK	strtok
@@ -69,31 +106,6 @@ extern "C" {
 #define SIZE 		1024
 #define TRUE 	1
 #define FALSE 	0
-
-/* Path where all the FTP files are Stored */
-#define FTP_REPO "./../repo/"
-
-/* Enum contains the Commands to send */
-enum command {
-	FTP_CMD_CD = 0,
-	FTP_CMD_GET,
-	FTP_CMD_HELP,
-	FTP_CMD_LS,
-	FTP_CMD_PUT,
-	FTP_CMD_PWD,
-	FTP_CMD_QUIT = -1,
-}command_t;
-
-const char *command_str[] = {
-	"CD"
-	"GET"
-	"HELP"
-	"LS"
-	"PUT"
-	"PWD"
-	"QUIT"
-};
-
 
 /* Standard Declarations */
 

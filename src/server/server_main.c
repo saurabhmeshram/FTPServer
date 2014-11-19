@@ -7,10 +7,15 @@
 
 void process_ls_command(int32_t fd);
 void process_pwd_command(int32_t fd);
+void process_put_command(int32_t fd);
 
 int32_t main (void)
 {
     system("clear");
+    system("pwd");
+    chdir(FTP_REPO);
+    system("pwd");
+
     int32_t command = -1;
     int32_t sock_fd, new_fd;
     int32_t reuse_addr = 1;
@@ -38,8 +43,8 @@ int32_t main (void)
 	process_recvd_command(command, new_fd);
     }
 
-    FTP_CLOSE(sock_fd);
     FTP_CLOSE(new_fd);
+    FTP_CLOSE(sock_fd);
     return 0;
 }
 
@@ -54,10 +59,35 @@ int process_recvd_command(int command, int fd)
 	case FTP_CMD_PWD:
 	    process_pwd_command(fd);
 	    break;
+	case FTP_CMD_PUT:
+	    process_put_command(fd);
+	    break;
 	default:
 	    printf("Unknown Command Recvd\n");
     }
     return 0;
+}
+
+void process_put_command(int32_t fd)
+{
+    ENTER;
+    filestr_t val = {0};
+    int32_t readb = -1;
+    FILE *fp = NULL;
+
+    /* Receive data into file format struct */
+    FTP_READ(fd, &val, sizeof(filestr_t));
+
+    /* Create file by the given filename */
+    fp = FTP_FOPEN(val.file_name, "w+");
+
+    /* Fwrite into the file from the revd_buffer */
+    readb = FTP_FWRITE(val.file_data, sizeof(int8_t), val.file_size, fp);
+
+    /* Clean-up */
+    FTP_FCLOSE(fp);
+    EXIT;
+    return;
 }
 
 void process_pwd_command(int32_t fd)

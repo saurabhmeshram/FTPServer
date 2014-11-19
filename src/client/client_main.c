@@ -133,50 +133,64 @@ void pwd_command(int32_t fd)
 /* Description: Put (upload) a file into the FTP server */
 int32_t put_file_command(int32_t fd, int8_t *cmd)
 {
-	int32_t i, j = 0, size;
-	FILE *fp = NULL;
-	int8_t *ptr = NULL, *send_buf = NULL;
-	int8_t **file_names = NULL;
+    int32_t i, j = 0, size;
+    int32_t c = FTP_CMD_PUT;
+    FTP_WRITE(fd, &c, sizeof(c));
 
-	file_names = (int8_t **) FTP_MALLOC(sizeof(int8_t *));
-	for(i=0; i<10; i++)				/* Max of ten files of max strlen 64 each */
-		*(file_names + i) = FTP_MALLOC(sizeof(int8_t) * 64);
+    filestr_t val = {0};
+    FILE *fp = NULL;
+    int8_t *ptr = NULL, *send_buf = NULL;
 
-	printf("CMD : [%s]\n", cmd);
-	/* Tokenise the file names */
-	ptr = FTP_STRTOK(cmd, " ");
-	printf("First Token  : [%s]\n", ptr);
-	do {
-		printf("\tToken  : [%s]\n", ptr);
-		FTP_MEMCPY(*(file_names + j), ptr, strlen(ptr));
-		printf("\tFile Name : [%s]\n", *(file_names + j));
-		j++;
-	}while (ptr = (FTP_STRTOK(NULL, " ")));
+    /* Command accepts upto 5 files as arg */
+    int8_t *files[5] = {NULL};
 
-	printf("Files to transfer:\n");
-	for(i=0; i<j; i++)
-		printf("\t[%s]\n", *(file_names + i));
+    for(i=0; i<5; i++)				/* Max of ten files of max strlen 64 each */
+	*(files + i) = FTP_MALLOC(sizeof(int8_t) * 64);
 
-	/* To-do : Check if file exist */
-
-	/* Read the file content into buffer */
-	printf("fopen failed for file [%s]\n", *(file_names+1));
-	if(NULL == (fp = FTP_FOPEN( *(file_names+1), "r"))) {
-	printf("fopen failed for file [%s]\n", *(file_names+1));
-	return -1;
+    /* Tokenise the file names */
+    ptr = FTP_STRTOK(cmd, " ");
+    printf("First Token  : [%s]\n", ptr);
+    while(ptr = FTP_STRTOK(NULL, " "))
+    {
+	FTP_STRCPY(*(files + j), ptr);
+	j++;
+	if (j >= 5) 
+	{
+	    printf("put- Allows only to send upto 5 files\n");
+	    break;
 	}
+    };
 
-	FTP_FSEEK(fp, 0, SEEK_END);
-	size = FTP_FTELL(fp);
-	FTP_REWIND(fp);
-	
-	send_buf = FTP_MALLOC(sizeof(uint8_t) * (size + 1));
-	FTP_FREAD(send_buf, sizeof(uint8_t), size, fp);
+#if 0
+    printf("Files to transfer:\n");
+    for(i=0; i<j; i++)
+	printf("\t[%s]\n", *(files + i));
+#endif
+    /* To-do : Check if file exist */
+    /* Read the file content into buffer */
+    if(NULL == (fp = FTP_FOPEN( *(files+0), "r"))) {
+	printf("fopen failed for file [%s]\n", *(files+0));
+	return -1;
+    }
 
-	printf("Content of File\n%s\n", send_buf);
+    /* Get the lenght of file */
+    FTP_FSEEK(fp, 0, SEEK_END);
+    size = FTP_FTELL(fp);
+    FTP_REWIND(fp);
 
-	/* Write File buffer to the Server */
-	//printf("File names : [%s]\n", ptr);
-	return 0;
+    send_buf = FTP_MALLOC(sizeof(uint8_t) * (size + 1));
+    FTP_FREAD(send_buf, sizeof(uint8_t), size, fp);
+
+
+    /* Form the File Structure to send */
+    val.file_size = size;
+    FTP_STRCPY(val.file_name, *(files));
+    FTP_STRNCPY(val.file_data, send_buf, size);
+
+
+    /* Write File buffer to the Server */
+    FTP_WRITE(fd, &val, sizeof(filestr_t));
+    printf("Transferred File to Server - Success\n");
+    return 0;
 }
 #endif
